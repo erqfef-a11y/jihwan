@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>지환이에게 온 편지</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jua&family=Gowun+Dodum&display=swap">
+<style>
+
+:root{
+  --bg:#fbf6ec; --card:#fffdf8; --fg:#3a2f25; --mute:#8a7a69; --line:#e7dccb;
+  --accent:#e2694a; --accent-fg:#fff; --ok:#3f8f5a; --ok-bg:#e5f3e8; --warn-bg:#fdecec; --warn:#b8382f;
+  --p1:#fff3b8; --p2:#ffd9e2; --p3:#d6efff; --p4:#dcf5d6; --p5:#e9e0ff; --pfg:#3a2f25;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#1f1a16; --card:#2a241e; --fg:#f2e9dc; --mute:#b3a493; --line:#40362c;
+  --accent:#f08060; --accent-fg:#1f1a16; --ok:#7fcf96; --ok-bg:#1f3527; --warn-bg:#3d2221; --warn:#ff9b90;
+  --p1:#ece0a0; --p2:#efc3cf; --p3:#bcdcf0; --p4:#c6e4bf; --p5:#d4c9f0; --pfg:#2b241d; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#1f1a16; --card:#2a241e; --fg:#f2e9dc; --mute:#b3a493; --line:#40362c;
+  --accent:#f08060; --accent-fg:#1f1a16; --ok:#7fcf96; --ok-bg:#1f3527; --warn-bg:#3d2221; --warn:#ff9b90;
+  --p1:#ece0a0; --p2:#efc3cf; --p3:#bcdcf0; --p4:#c6e4bf; --p5:#d4c9f0; --pfg:#2b241d; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:"Gowun Dodum","Apple SD Gothic Neo","Malgun Gothic",sans-serif;font-size:20px;line-height:1.55}
+.wrap{max-width:860px;margin:0 auto;padding-block:24px 60px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:20px}
+h1,h2,.jua{font-family:"Jua","Gowun Dodum",sans-serif;font-weight:400;text-wrap:balance;margin:0}
+h1{font-size:clamp(32px,6vw,46px);line-height:1.2}
+.sub{color:var(--mute);margin:0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;display:flex;flex-direction:column;gap:14px}
+label.t{font-family:"Jua",sans-serif;font-size:22px}
+input[type=text],textarea{font:inherit;font-size:24px;color:var(--pfg);border:2px solid var(--line);border-radius:14px;padding:12px 14px;width:100%;box-sizing:border-box;background:var(--card);color:var(--fg)}
+textarea{min-height:240px;resize:vertical;line-height:1.6}
+.paper textarea{background:var(--pc);color:var(--pfg);border-color:transparent;background-image:repeating-linear-gradient(transparent 0 37px,rgba(0,0,0,.08) 37px 38px);background-attachment:local}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.sw{width:52px;height:52px;border-radius:50%;border:3px solid transparent;cursor:pointer;padding:0}
+.sw[aria-pressed=true]{border-color:var(--fg)}
+.st{font-size:32px;width:58px;height:58px;border-radius:14px;border:2px solid var(--line);background:var(--card);cursor:pointer;padding:0}
+.st[aria-pressed=true]{border-color:var(--accent);background:var(--warn-bg)}
+.btn{font:inherit;font-family:"Jua",sans-serif;font-size:24px;border:0;border-radius:16px;padding:14px 26px;background:var(--accent);color:var(--accent-fg);cursor:pointer}
+.btn:disabled{opacity:.45;cursor:default}
+.btn.ghost{background:transparent;color:var(--fg);border:2px solid var(--line)}
+.btn.sm{font-size:17px;padding:8px 14px;border-radius:12px}
+.count{color:var(--mute);font-size:17px;margin-left:auto}
+.msg{border-radius:14px;padding:12px 16px;font-size:19px}
+.msg.ok{background:var(--ok-bg);color:var(--ok)}
+.msg.err{background:var(--warn-bg);color:var(--warn)}
+.done{text-align:center;align-items:center;padding:40px 20px}
+.done .big{font-size:72px;line-height:1}
+.foot{text-align:center}
+.link{background:none;border:0;color:var(--mute);font:inherit;font-size:16px;text-decoration:underline;cursor:pointer}
+/* teacher */
+.bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.pill{font-family:"Jua",sans-serif;font-size:20px;background:var(--ok-bg);color:var(--ok);border-radius:999px;padding:4px 14px}
+.live{width:10px;height:10px;border-radius:50%;background:var(--ok);display:inline-block;animation:pulse 1.6s infinite}
+@keyframes pulse{50%{opacity:.25}}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+.note{background:var(--pc);color:var(--pfg);border-radius:6px 6px 16px 6px;padding:16px 16px 12px;box-shadow:0 2px 0 rgba(0,0,0,.06),0 6px 14px rgba(0,0,0,.06);display:flex;flex-direction:column;gap:8px;min-width:0;position:relative}
+.note .stk{position:absolute;top:-14px;right:10px;font-size:34px}
+.note .body{padding-right:26px;white-space:pre-wrap;word-break:break-word;font-size:18px}
+.note .from{font-family:"Jua",sans-serif;font-size:19px;text-align:right}
+.note .meta{display:flex;gap:6px;align-items:center;font-size:14px;opacity:.75}
+.note .meta button{margin-left:auto}
+.note.new{outline:3px solid var(--accent);outline-offset:2px}
+.note.off{opacity:.4}
+.tiny{font:inherit;font-size:14px;border:1px solid rgba(0,0,0,.2);background:rgba(255,255,255,.5);color:var(--pfg);border-radius:8px;padding:3px 8px;cursor:pointer}
+.empty{color:var(--mute);text-align:center;padding:30px}
+.pin{display:flex;gap:10px;flex-wrap:wrap}
+.pin input{max-width:220px;letter-spacing:.3em;text-align:center}
+
+</style>
+<style>
+.ptitle{display:none}
+.note .pic{width:100%;border-radius:8px;display:block;background:rgba(255,255,255,.25)}
+.sec{font-family:Jua,sans-serif;font-size:24px;margin:8px 0 0;display:flex;gap:10px;align-items:center}
+.typing .body:empty::before{content:'(아직 안 씀)';opacity:.5}
+.typing{border:2px dashed rgba(0,0,0,.18)}
+.pen{font-size:14px;opacity:.7}
+.confirm{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+@media print{
+  @page{size:A4;margin:12mm}
+  :root{--p1:#fff3b8;--p2:#ffd9e2;--p3:#d6efff;--p4:#dcf5d6;--p5:#e9e0ff;--pfg:#3a2f25}
+  body{background:#fff!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .wrap{max-width:none;padding:0}
+  .noprint,.note.off,.note .meta,.typing-sec{display:none!important}
+  .ptitle{display:block;text-align:center}
+  .ptitle h1{font-size:30pt;color:#3a2f25}.ptitle p{color:#7a6a59;margin:2mm 0 6mm}
+  .grid{display:block;columns:2;column-gap:6mm}
+  .note{break-inside:avoid;margin:0 0 6mm;box-shadow:none;outline:0!important}
+  .note .body{font-size:12.5pt}
+}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+<script>
+const FRIEND = '지환';
+const PAPERS = ['--p1','--p2','--p3','--p4','--p5'];
+const $ = s => document.querySelector(s);
+const app = $('#app');
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const paperVar = i => `var(${PAPERS[i] || PAPERS[0]})`;
+let PIN = '';
+try { PIN = sessionStorage.getItem('rp-pin') || ''; } catch {}
+let list = [], drafts = [], seen = null, timer = null, asking = false;
+const imgs = {}; // 'L-id' 또는 'D-sid:iv' -> data URL
+const loading = new Set();
+
+const GAS = 'https://script.google.com/macros/s/AKfycbxG71_fqxPC5NDoL5vpY0GTaLoJi7z_B3oWHt8xbRTujrDXsYKHNaKFgvrNBseScHK3ig/exec';   // 구글 Apps Script 저장소 (예전 /api 경로를 그대로 흉내 냄)
+const api = async (path, body) => { const [p, q=''] = path.split('?'); let req;
+  if (p === '/api/letters') req = { action:'list' };
+  else if (p === '/api/img') req = { action:'img', id: decodeURIComponent(q.slice(2)).replace(/^L-/, '') };
+  else if (p === '/api/hide') req = { action:'hide', id: body.id, hide: body.hide };
+  else return { ok:false, status:400, json: async () => ({}) };
+  const d = await (await fetch(GAS, { method:'POST', body: JSON.stringify({ ...req, pin:PIN }) })).json();
+  return { ok: !!d.ok, status: d.error === 'pin' ? 403 : d.ok ? 200 : 500, json: async () => d }; };
+
+function renderPin(note){
+  clearInterval(timer);
+  app.innerHTML = `
+    <section class="card">
+      <h2>선생님 비밀번호</h2>
+      ${note ? `<div class="msg err">${esc(note)}</div>` : ''}
+      <div class="pin"><input type="password" id="pin" inputmode="numeric" maxlength="8" autocomplete="off"><button class="btn" id="go">열기</button></div>
+    </section>`;
+  const inp = $('#pin'); inp.focus();
+  const go = async () => {
+    PIN = inp.value.trim();
+    const r = await api('/api/letters').catch(() => null);
+    if (!r || !r.ok) return renderPin(r && r.status === 403 ? '비밀번호가 달라요.' : '서버에 연결하지 못했어요.');
+    try { sessionStorage.setItem('rp-pin', PIN); } catch {}
+    take(await r.json()); render(); timer = setInterval(poll, 15000);
+  };
+  $('#go').onclick = go;
+  inp.onkeydown = e => { if (e.key === 'Enter') go(); };
+}
+
+async function poll(){
+  if (asking) return;
+  const r = await api('/api/letters').catch(() => null);
+  if (!r) return;
+  if (r.status === 403) return renderPin('다시 비밀번호를 넣어 주세요.');
+  const next = await r.json();
+  (next.drafts || []).sort((a, b) => a.at - b.at);
+  if (JSON.stringify(next) !== JSON.stringify({ letters:list, drafts })) { take(next); render(); }
+}
+
+function take(d){ list = d.letters || []; drafts = (d.drafts || []).sort((a, b) => a.at - b.at); }
+function imgKey(l){ return l.sid ? `D-${l.sid}:${l.iv}` : `L-${l.id}`; }
+async function loadImg(l){
+  const k = imgKey(l);
+  if (imgs[k] || loading.has(k)) return;
+  loading.add(k);
+  const r = await api('/api/img?k=' + encodeURIComponent(l.sid ? 'D-' + l.sid : 'L-' + l.id)).catch(() => null);
+  if (r && r.ok) { imgs[k] = (await r.json()).img; render(); }
+  loading.delete(k);
+}
+function card(l){
+  const typing = !!l.sid;
+  let pic = '';
+  if (l.hasImg) { const src = imgs[imgKey(l)]; if (src) pic = `<img class="pic" alt="그림" src="${src}">`; else { loadImg(l); pic = '<div class="pen">그림 불러오는 중…</div>'; } }
+  return `
+      <article class="note${typing ? ' typing' : ''}${!typing && fresh.has(l.id) ? ' new' : ''}${l.hide ? ' off' : ''}" style="--pc:${paperVar(l.paper)}">
+        <span class="stk">${esc(l.sticker)}</span>
+        <div class="body">${esc(l.body)}</div>
+        ${pic}
+        <div class="from">— ${esc(l.from) || '(이름 아직 없음)'}</div>
+        <div class="meta"><span>${typing ? '✍️ 쓰는 중 · ' : ''}${new Date(l.at).toLocaleString('ko-KR',{month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'})}</span>
+          ${typing ? '' : `<button class="tiny" data-hide="${esc(l.id)}">${l.hide ? '다시 넣기' : '빼기'}</button>`}</div>
+      </article>`;
+}
+let fresh = new Set();
+function render(){
+  const shown = list.filter(l => !l.hide);
+  if (!seen) seen = new Set(list.map(l => l.id));
+  fresh = new Set(list.filter(l => !seen.has(l.id)).map(l => l.id));
+  setTimeout(() => fresh.forEach(id => seen.add(id)), 4000);
+  const y = window.scrollY;
+  app.innerHTML = `
+    <div class="ptitle"><h1 class="jua">💌 ${FRIEND}아, 고마웠어!</h1><p>3학년 4반 친구들이 · ${new Date().toLocaleDateString('ko-KR')}</p></div>
+    <header class="bar noprint">
+      <h1 style="flex:1 1 300px">📮 ${FRIEND}이에게 온 편지</h1>
+      <span class="pill"><span class="live"></span> 실시간 ${shown.length}통${list.length !== shown.length ? ` · 뺀 것 ${list.length - shown.length}` : ''}</span>
+    </header>
+    <div class="bar noprint">
+      <button class="btn" id="print" ${shown.length ? '' : 'disabled'}>🖨️ 인쇄</button>
+      
+    </div>
+    <div id="cf" class="noprint"></div>
+    <p class="sub noprint" style="font-size:16px">인쇄할 때 '배경 그래픽'을 켜 주세요. '빼기'한 편지는 인쇄에 들어가지 않아요.</p>
+    ${drafts.length ? `<h2 class="sec noprint typing-sec">✍️ 지금 쓰는 중 <span class="pill">${drafts.length}명</span></h2>
+      <div class="grid noprint typing-sec">${drafts.map(card).join('')}</div>` : ''}
+    <h2 class="sec noprint">📮 보낸 편지</h2>
+    ${list.length ? `<div class="grid">${list.map(card).join('')}</div>` : `<div class="card empty noprint">아직 보낸 편지가 없어요. 학생이 보내면 바로 여기에 나타나요.</div>`}`;
+  window.scrollTo(0, y);
+  $('#print').onclick = () => window.print();
+  if ($('#clear')) $('#clear').onclick = () => {
+    asking = true;
+    $('#cf').innerHTML = `<div class="card confirm"><b>편지 ${list.length}통을 모두 지울까요? 되돌릴 수 없어요.</b>
+      <button class="btn sm" id="yes">지우기</button><button class="btn sm ghost" id="no">취소</button></div>`;
+    $('#no').onclick = () => { asking = false; $('#cf').innerHTML = ''; };
+    $('#yes').onclick = async () => { await api('/api/clear', {}); asking = false; list = []; drafts = []; render(); };
+  };
+  app.querySelectorAll('[data-hide]').forEach(b => b.onclick = async () => {
+    const l = list.find(x => x.id === b.dataset.hide); if (!l) return;
+    b.disabled = true;
+    await api('/api/hide', { id:l.id, hide:!l.hide }).catch(() => {});
+    poll();
+  });
+}
+PIN ? (async () => { const r = await api('/api/letters').catch(() => null); if (r && r.ok) { take(await r.json()); render(); timer = setInterval(poll, 15000); } else renderPin(); })() : renderPin();
+</script>
+</body>
+</html>

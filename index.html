@@ -1,0 +1,447 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>지환이에게 편지</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jua&family=Gowun+Dodum&display=swap">
+<style>
+
+:root{
+  --bg:#fbf6ec; --card:#fffdf8; --fg:#3a2f25; --mute:#8a7a69; --line:#e7dccb;
+  --accent:#e2694a; --accent-fg:#fff; --ok:#3f8f5a; --ok-bg:#e5f3e8; --warn-bg:#fdecec; --warn:#b8382f;
+  --p1:#fff3b8; --p2:#ffd9e2; --p3:#d6efff; --p4:#dcf5d6; --p5:#e9e0ff; --pfg:#3a2f25;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#1f1a16; --card:#2a241e; --fg:#f2e9dc; --mute:#b3a493; --line:#40362c;
+  --accent:#f08060; --accent-fg:#1f1a16; --ok:#7fcf96; --ok-bg:#1f3527; --warn-bg:#3d2221; --warn:#ff9b90;
+  --p1:#ece0a0; --p2:#efc3cf; --p3:#bcdcf0; --p4:#c6e4bf; --p5:#d4c9f0; --pfg:#2b241d; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#1f1a16; --card:#2a241e; --fg:#f2e9dc; --mute:#b3a493; --line:#40362c;
+  --accent:#f08060; --accent-fg:#1f1a16; --ok:#7fcf96; --ok-bg:#1f3527; --warn-bg:#3d2221; --warn:#ff9b90;
+  --p1:#ece0a0; --p2:#efc3cf; --p3:#bcdcf0; --p4:#c6e4bf; --p5:#d4c9f0; --pfg:#2b241d; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:"Gowun Dodum","Apple SD Gothic Neo","Malgun Gothic",sans-serif;font-size:20px;line-height:1.55}
+.wrap{max-width:860px;margin:0 auto;padding-block:24px 60px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:20px}
+h1,h2,.jua{font-family:"Jua","Gowun Dodum",sans-serif;font-weight:400;text-wrap:balance;margin:0}
+h1{font-size:clamp(32px,6vw,46px);line-height:1.2}
+.sub{color:var(--mute);margin:0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;display:flex;flex-direction:column;gap:14px}
+label.t{font-family:"Jua",sans-serif;font-size:22px}
+input[type=text],textarea{font:inherit;font-size:24px;color:var(--pfg);border:2px solid var(--line);border-radius:14px;padding:12px 14px;width:100%;box-sizing:border-box;background:var(--card);color:var(--fg)}
+textarea{min-height:240px;resize:vertical;line-height:1.6}
+.paper textarea{background:var(--pc);color:var(--pfg);border-color:transparent;background-image:repeating-linear-gradient(transparent 0 37px,rgba(0,0,0,.08) 37px 38px);background-attachment:local}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.sw{width:52px;height:52px;border-radius:50%;border:3px solid transparent;cursor:pointer;padding:0}
+.sw[aria-pressed=true]{border-color:var(--fg)}
+.st{font-size:32px;width:58px;height:58px;border-radius:14px;border:2px solid var(--line);background:var(--card);cursor:pointer;padding:0}
+.st[aria-pressed=true]{border-color:var(--accent);background:var(--warn-bg)}
+.btn{font:inherit;font-family:"Jua",sans-serif;font-size:24px;border:0;border-radius:16px;padding:14px 26px;background:var(--accent);color:var(--accent-fg);cursor:pointer}
+.btn:disabled{opacity:.45;cursor:default}
+.btn.ghost{background:transparent;color:var(--fg);border:2px solid var(--line)}
+.btn.sm{font-size:17px;padding:8px 14px;border-radius:12px}
+.count{color:var(--mute);font-size:17px;margin-left:auto}
+.msg{border-radius:14px;padding:12px 16px;font-size:19px}
+.msg.ok{background:var(--ok-bg);color:var(--ok)}
+.msg.err{background:var(--warn-bg);color:var(--warn)}
+.done{text-align:center;align-items:center;padding:40px 20px}
+.done .big{font-size:72px;line-height:1}
+.foot{text-align:center}
+.link{background:none;border:0;color:var(--mute);font:inherit;font-size:16px;text-decoration:underline;cursor:pointer}
+/* teacher */
+.bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.pill{font-family:"Jua",sans-serif;font-size:20px;background:var(--ok-bg);color:var(--ok);border-radius:999px;padding:4px 14px}
+.live{width:10px;height:10px;border-radius:50%;background:var(--ok);display:inline-block;animation:pulse 1.6s infinite}
+@keyframes pulse{50%{opacity:.25}}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+.note{background:var(--pc);color:var(--pfg);border-radius:6px 6px 16px 6px;padding:16px 16px 12px;box-shadow:0 2px 0 rgba(0,0,0,.06),0 6px 14px rgba(0,0,0,.06);display:flex;flex-direction:column;gap:8px;min-width:0;position:relative}
+.note .stk{position:absolute;top:-14px;right:10px;font-size:34px}
+.note .body{padding-right:26px;white-space:pre-wrap;word-break:break-word;font-size:18px}
+.note .from{font-family:"Jua",sans-serif;font-size:19px;text-align:right}
+.note .meta{display:flex;gap:6px;align-items:center;font-size:14px;opacity:.75}
+.note .meta button{margin-left:auto}
+.note.new{outline:3px solid var(--accent);outline-offset:2px}
+.note.off{opacity:.4}
+.tiny{font:inherit;font-size:14px;border:1px solid rgba(0,0,0,.2);background:rgba(255,255,255,.5);color:var(--pfg);border-radius:8px;padding:3px 8px;cursor:pointer}
+.empty{color:var(--mute);text-align:center;padding:30px}
+.pin{display:flex;gap:10px;flex-wrap:wrap}
+.pin input{max-width:220px;letter-spacing:.3em;text-align:center}
+
+</style>
+<style>
+[hidden]{display:none!important}
+.hint{color:var(--mute);font-size:16px;margin:0}
+.pv{display:block;width:100%;aspect-ratio:8/5;border-radius:14px;border:2px dashed rgba(0,0,0,.18);background:var(--pc);cursor:pointer;padding:0;overflow:hidden;position:relative;font:inherit;color:var(--pfg)}
+.pv img{width:100%;height:100%;object-fit:contain;display:block}
+.pv .ph{position:absolute;inset:0;display:grid;place-items:center;font-family:Jua,sans-serif;font-size:28px;opacity:.6}
+.pv .edit{position:absolute;right:10px;bottom:10px;font-family:Jua,sans-serif;font-size:18px;background:rgba(255,255,255,.85);color:#3a2f25;border-radius:999px;padding:4px 14px}
+
+/* ---- 그림 화면 (디드처럼: 가운데 도화지 · 왼쪽 굵기/투명도 · 오른쪽 색 · 아래 도구) ---- */
+.studio{position:fixed;inset:0;z-index:50;background:#f4f1ea;color:#2f2a25;display:flex;flex-direction:column;
+  padding:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px);user-select:none;-webkit-user-select:none}
+.s-top{display:flex;align-items:center;gap:10px;padding:10px 14px}
+.s-top .ttl{font-family:Jua,sans-serif;font-size:22px;flex:1}
+.s-done{font:inherit;font-family:Jua,sans-serif;font-size:20px;border:0;border-radius:999px;padding:10px 22px;background:#1f3b34;color:#fff;cursor:pointer}
+.s-mid{flex:1;min-height:0;display:flex;align-items:stretch;gap:6px;padding:0 8px}
+.s-left,.s-right{width:68px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px}
+.s-stage{flex:1;min-width:0;min-height:0;display:grid;place-items:center}
+.s-board{position:relative;box-shadow:0 4px 18px rgba(0,0,0,.12);border-radius:4px;overflow:hidden;touch-action:none}
+.s-board canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none}
+.vr{appearance:none;-webkit-appearance:none;writing-mode:vertical-lr;direction:rtl;width:34px;height:clamp(110px,26vh,220px);background:#fff;border-radius:999px;box-shadow:inset 0 0 0 1px #ddd;margin:0}
+.vr::-webkit-slider-thumb{-webkit-appearance:none;width:30px;height:30px;border-radius:50%;background:#555;border:3px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.3)}
+.vr::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:#555;border:3px solid #fff}
+.vl{font-size:13px;color:#777;text-align:center;line-height:1.2}
+.szdot{border-radius:50%;background:var(--cur,#333);max-width:44px;max-height:44px}
+.cc{width:40px;height:40px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 1px #ccc;cursor:pointer;padding:0}
+.cc[aria-pressed=true]{box-shadow:0 0 0 3px #2f2a25}
+.cc.rainbow{background:conic-gradient(red,orange,yellow,lime,cyan,blue,magenta,red)}
+.s-colors{display:flex;flex-direction:column;gap:9px;align-items:center;overflow-y:auto;max-height:100%;padding:4px}
+.s-bot{display:flex;align-items:flex-end;gap:8px;padding:6px 10px 10px}
+.rd{width:48px;height:48px;border-radius:50%;border:0;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.15);font-size:22px;cursor:pointer;flex:none}
+.rd:disabled{opacity:.35}
+.s-tools{flex:1;display:flex;gap:4px;justify-content:center;align-items:flex-end;overflow-x:auto;padding-top:14px}
+.tl{flex:none;width:64px;border:0;background:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;font:inherit;color:#2f2a25;transition:transform .12s}
+.tl .ic{font-size:34px;line-height:1}
+.tl .nm{font-size:13px;white-space:nowrap}
+.tl[aria-pressed=true]{transform:translateY(-12px)}
+.hlic{display:inline-block;width:14px;height:34px;border-radius:3px 3px 6px 6px;background:linear-gradient(#ffe066 0 30%,#555 30% 38%,#f4f4f4 38%);transform:rotate(35deg);box-shadow:0 1px 2px rgba(0,0,0,.3)}
+.tl[aria-pressed=true] .nm{font-weight:700}
+.stamps{position:absolute;left:50%;bottom:100%;transform:translateX(-50%);display:flex;flex-wrap:wrap;gap:6px;justify-content:center;background:#fff;border-radius:16px;padding:8px;box-shadow:0 4px 16px rgba(0,0,0,.15);width:min(92vw,560px)}
+.stamps button{font-size:30px;width:52px;height:52px;border-radius:12px;border:2px solid transparent;background:#f6f3ee;cursor:pointer;padding:0}
+.stamps button[aria-pressed=true]{border-color:#e2694a}
+.s-bot{position:relative}
+@media (max-width:700px){.s-left,.s-right{width:52px}.tl{width:54px}.tl .ic{font-size:28px}}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+
+<div class="studio" id="studio" hidden>
+  <div class="s-top"><span class="ttl">🎨 그림으로 꾸미기</span><button class="s-done" id="done">✓ 다 그렸어요</button></div>
+  <div class="s-mid">
+    <div class="s-left">
+      <div class="szdot" id="szdot"></div>
+      <input class="vr" type="range" id="size" min="2" max="60" value="12" aria-label="굵기">
+      <div class="vl"><span id="sizev">12</span><br>굵기</div>
+      <input class="vr" type="range" id="alpha" min="10" max="100" value="100" aria-label="진하기" style="height:clamp(80px,16vh,150px)">
+      <div class="vl"><span id="alphav">100</span>%<br>진하기</div>
+    </div>
+    <div class="s-stage" id="stage"><div class="s-board" id="board"><canvas id="cv"></canvas><canvas id="ov"></canvas></div></div>
+    <div class="s-right"><div class="s-colors" id="colors"></div></div>
+  </div>
+  <div class="s-bot">
+    <button class="rd" id="undo" aria-label="되돌리기">↶</button>
+    <button class="rd" id="redo" aria-label="다시 하기">↷</button>
+    <div class="s-tools" id="tools"></div>
+    <button class="rd" id="wipe" aria-label="다 지우기">🗑️</button>
+    <div class="stamps" id="stamps" hidden></div>
+  </div>
+  <input type="color" id="picker" style="position:absolute;width:1px;height:1px;opacity:0;bottom:80px;right:40px" tabindex="-1" aria-hidden="true">
+</div>
+
+<script>
+const FRIEND = '지환';
+const PAPERS = ['--p1','--p2','--p3','--p4','--p5'];
+const STICKERS = ['💌','🌈','⭐','🍀','🎈','🐣','🌻','🚀','🦄','💖','⚽','🍰'];
+const STAMPS = ['⭐','💖','🌈','🌻','🍀','🎈','🐣','🦄','🚀','⚽','🍰','🎁','🐶','🐱','🐰','🦋','🌸','☀️','🌙','🎉','👍','😊','😎','🥳'];
+const COLORS = ['#e53935','#fb8c00','#fdd835','#43a047','#1e88e5','#3949ab','#8e24aa','#ec407a','#8d6e63','#ffffff','#9e9e9e','#212121'];
+const TOOLS = [
+  ['crayon','🖍️','크레용'], ['pen','🖊️','사인펜'], ['pencil','✏️','색연필'], ['water','🖌️','수채화'],
+  ['hl','','형광펜'], ['fill','🪣','색 채우기'], ['erase','🧽','지우개'], ['stamp','⭐','도장'],
+];
+const W = 960, H = 600, MAX = 600;
+const $ = s => document.querySelector(s);
+const app = $('#app');
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const paperVar = i => `var(${PAPERS[i] || PAPERS[0]})`;
+const newSid = () => Math.random().toString(36).slice(2, 12) + Date.now().toString(36);
+const S = { paper:0, sticker:'💌', sid:newSid(), tool:'crayon', color:COLORS[4], size:12, alpha:1, stamp:'⭐',
+            drawn:false, imgDirty:false, imgSent:'' };
+
+function draftGet(){ try { return JSON.parse(localStorage.getItem('rp-draft') || '{}'); } catch { return {}; } }
+function draftSet(d){ try { localStorage.setItem('rp-draft', JSON.stringify(d)); } catch {} }
+
+/* ================= 그림판 ================= */
+const cv = $('#cv'), ov = $('#ov'), cx = cv.getContext('2d', { willReadFrequently:true }), ox = ov.getContext('2d');
+cv.width = ov.width = W; cv.height = ov.height = H;
+const undoStack = [], redoStack = [];
+function snap(){ undoStack.push(cx.getImageData(0, 0, W, H)); if (undoStack.length > 20) undoStack.shift(); redoStack.length = 0; undoUI(); }
+function undoUI(){ $('#undo').disabled = !undoStack.length; $('#redo').disabled = !redoStack.length; }
+function checkDrawn(){
+  const d = cx.getImageData(0, 0, W, H).data;
+  for (let i = 3; i < d.length; i += 4) if (d[i]) return (S.drawn = true);
+  return (S.drawn = false);
+}
+function resetDrawing(){ cx.clearRect(0, 0, W, H); undoStack.length = redoStack.length = 0; S.drawn = false; undoUI(); }
+
+const hexRgb = h => [1,3,5].map(i => parseInt(h.slice(i, i + 2), 16));
+const rnd = (a, b) => a + Math.random() * (b - a);
+
+function dab(x, y){
+  const t = S.tool, s = S.size, c = S.color;
+  if (t === 'crayon') {
+    cx.fillStyle = c;
+    const n = Math.max(4, s * 0.9);
+    for (let i = 0; i < n; i++) {
+      const a = rnd(0, 6.283), r = Math.sqrt(Math.random()) * s / 2;
+      cx.globalAlpha = rnd(0.25, 0.6) * S.alpha;
+      cx.fillRect(x + Math.cos(a) * r, y + Math.sin(a) * r, rnd(1, 2.4), rnd(1, 2.4));
+    }
+  } else if (t === 'pencil') {
+    cx.fillStyle = c;
+    const r = Math.max(1, s * 0.22);
+    for (let i = 0; i < 3; i++) { cx.globalAlpha = rnd(0.25, 0.55) * S.alpha; cx.fillRect(x + rnd(-r, r), y + rnd(-r, r), 1.4, 1.4); }
+  } else if (t === 'water') {
+    const g = cx.createRadialGradient(x, y, 0, x, y, s);
+    const [r, gg, b] = hexRgb(c);
+    g.addColorStop(0, `rgba(${r},${gg},${b},${0.10 * S.alpha})`);
+    g.addColorStop(1, `rgba(${r},${gg},${b},0)`);
+    cx.globalAlpha = 1; cx.fillStyle = g;
+    cx.beginPath(); cx.arc(x, y, s, 0, 6.283); cx.fill();
+  } else if (t === 'erase') {
+    cx.globalCompositeOperation = 'destination-out'; cx.globalAlpha = 1;
+    cx.beginPath(); cx.arc(x, y, s, 0, 6.283); cx.fill();
+    cx.globalCompositeOperation = 'source-over';
+  }
+  cx.globalAlpha = 1;
+}
+const SPACING = { crayon:0.18, pencil:0.25, water:0.2, erase:0.25 };
+function segment(a, b){
+  if (S.tool === 'pen' || S.tool === 'hl') {   // 겹쳐도 같은 진하기: 위 칸에 그렸다가 끝날 때 옮김
+    ox.strokeStyle = S.color; ox.lineCap = 'round'; ox.lineJoin = 'round';
+    ox.lineWidth = S.tool === 'hl' ? S.size * 2.2 : S.size;
+    ox.beginPath(); ox.moveTo(a[0], a[1]); ox.lineTo(b[0], b[1]); ox.stroke();
+    return;
+  }
+  const d = Math.hypot(b[0] - a[0], b[1] - a[1]);
+  const step = Math.max(1, S.size * SPACING[S.tool]);
+  for (let t = 0; t <= d; t += step) dab(a[0] + (b[0] - a[0]) * t / (d || 1), a[1] + (b[1] - a[1]) * t / (d || 1));
+}
+function commitOverlay(){
+  cx.globalAlpha = S.tool === 'hl' ? 0.35 * S.alpha : S.alpha;
+  cx.drawImage(ov, 0, 0);
+  cx.globalAlpha = 1;
+  ox.clearRect(0, 0, W, H);
+}
+function floodFill(x, y){
+  const img = cx.getImageData(0, 0, W, H), d = img.data;
+  const i0 = (y * W + x) * 4, t = [d[i0], d[i0+1], d[i0+2], d[i0+3]];
+  const [r, g, b] = hexRgb(S.color), a = Math.round(255 * S.alpha);
+  if (t[0] === r && t[1] === g && t[2] === b && t[3] === a) return false;
+  const tol = 48, same = i => Math.abs(d[i]-t[0]) + Math.abs(d[i+1]-t[1]) + Math.abs(d[i+2]-t[2]) + Math.abs(d[i+3]-t[3]) <= tol;
+  const seen = new Uint8Array(W * H), stack = [x, y];
+  while (stack.length) {
+    const py = stack.pop(), px = stack.pop();
+    let lx = px; while (lx > 0 && !seen[py*W+lx-1] && same((py*W+lx-1)*4)) lx--;
+    let rx = px; while (rx < W-1 && !seen[py*W+rx+1] && same((py*W+rx+1)*4)) rx++;
+    for (let qx = lx; qx <= rx; qx++) {
+      const k = py*W+qx; seen[k] = 1; const i = k*4;
+      d[i] = r; d[i+1] = g; d[i+2] = b; d[i+3] = a;
+      if (py > 0 && !seen[k-W] && same(i - W*4)) stack.push(qx, py-1);
+      if (py < H-1 && !seen[k+W] && same(i + W*4)) stack.push(qx, py+1);
+    }
+  }
+  cx.putImageData(img, 0, 0);
+  return true;
+}
+function stampAt(x, y){
+  cx.globalAlpha = S.alpha;
+  cx.font = `${Math.round(S.size * 2.4 + 24)}px "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif`;
+  cx.textAlign = 'center'; cx.textBaseline = 'middle';
+  cx.fillText(S.stamp, x, y);
+  cx.globalAlpha = 1;
+}
+
+(function bindBoard(){
+  let last = null;
+  const pt = e => { const r = ov.getBoundingClientRect(); return [Math.max(0, Math.min(W-1, Math.round((e.clientX - r.left) * W / r.width))), Math.max(0, Math.min(H-1, Math.round((e.clientY - r.top) * H / r.height)))]; };
+  ov.addEventListener('pointerdown', e => {
+    e.preventDefault(); $('#stamps').hidden = true;
+    if (last) return;
+    const p = pt(e);
+    snap();
+    if (S.tool === 'fill') { if (!floodFill(p[0], p[1])) undoStack.pop(); undoUI(); return strokeEnd(); }
+    if (S.tool === 'stamp') { stampAt(p[0], p[1]); return strokeEnd(); }
+    ov.setPointerCapture(e.pointerId);
+    last = p; segment(p, [p[0] + 0.1, p[1]]);
+  });
+  ov.addEventListener('pointermove', e => {
+    if (!last) return;
+    const evs = e.getCoalescedEvents ? e.getCoalescedEvents() : [e];
+    for (const ev of evs) { const p = pt(ev); segment(last, p); last = p; }
+  });
+  const up = () => { if (!last) return; last = null; if (S.tool === 'pen' || S.tool === 'hl') commitOverlay(); strokeEnd(); };
+  ov.addEventListener('pointerup', up); ov.addEventListener('pointercancel', up);
+})();
+function strokeEnd(){ checkDrawn(); changed(true); }
+
+function fitBoard(){
+  const r = $('#stage').getBoundingClientRect();
+  let w = r.width, h = w * H / W;
+  if (h > r.height) { h = r.height; w = h * W / H; }
+  Object.assign($('#board').style, { width:w + 'px', height:h + 'px' });
+}
+addEventListener('resize', () => { if (!$('#studio').hidden) fitBoard(); });
+
+function studioUI(){
+  $('#colors').innerHTML = `<button class="cc rainbow" id="rainbow" aria-label="다른 색 고르기"></button>` +
+    COLORS.map(c => `<button class="cc" data-c="${c}" style="background:${c}" aria-label="색" aria-pressed="${c===S.color}"></button>`).join('');
+  $('#tools').innerHTML = TOOLS.map(([k, ic, nm]) => `<button class="tl" data-t="${k}" aria-pressed="${k===S.tool}"><span class="ic">${k==='stamp' ? S.stamp : k==='hl' ? '<i class="hlic"></i>' : ic}</span><span class="nm">${nm}</span></button>`).join('');
+  $('#stamps').innerHTML = STAMPS.map(s => `<button data-s="${s}" aria-pressed="${s===S.stamp}">${s}</button>`).join('');
+  const dot = () => { const z = Math.min(44, Math.max(6, S.size)); Object.assign($('#szdot').style, { width:z+'px', height:z+'px', background:S.color, opacity:S.alpha }); };
+  const mark = () => {
+    document.querySelectorAll('[data-c]').forEach(b => b.setAttribute('aria-pressed', b.dataset.c === S.color));
+    document.querySelectorAll('[data-t]').forEach(b => b.setAttribute('aria-pressed', b.dataset.t === S.tool));
+    document.querySelectorAll('[data-s]').forEach(b => b.setAttribute('aria-pressed', b.dataset.s === S.stamp));
+    $('[data-t="stamp"] .ic').textContent = S.stamp;
+    dot();
+  };
+  document.querySelectorAll('[data-c]').forEach(b => b.onclick = () => { S.color = b.dataset.c; if (S.tool === 'erase' || S.tool === 'stamp') S.tool = 'crayon'; mark(); });
+  $('#rainbow').onclick = () => { $('#picker').value = S.color; $('#picker').click(); };
+  $('#picker').oninput = e => { S.color = e.target.value; if (S.tool === 'erase' || S.tool === 'stamp') S.tool = 'crayon'; mark(); };
+  document.querySelectorAll('[data-t]').forEach(b => b.onclick = () => {
+    const was = S.tool; S.tool = b.dataset.t; mark();
+    $('#stamps').hidden = !(S.tool === 'stamp' && (was !== 'stamp' || $('#stamps').hidden));
+  });
+  document.querySelectorAll('[data-s]').forEach(b => b.onclick = () => { S.stamp = b.dataset.s; $('#stamps').hidden = true; mark(); });
+  $('#size').oninput = e => { S.size = +e.target.value; $('#sizev').textContent = S.size; dot(); };
+  $('#alpha').oninput = e => { S.alpha = e.target.value / 100; $('#alphav').textContent = e.target.value; dot(); };
+  $('#undo').onclick = () => { if (!undoStack.length) return; redoStack.push(cx.getImageData(0, 0, W, H)); cx.putImageData(undoStack.pop(), 0, 0); undoUI(); strokeEnd(); };
+  $('#redo').onclick = () => { if (!redoStack.length) return; undoStack.push(cx.getImageData(0, 0, W, H)); cx.putImageData(redoStack.pop(), 0, 0); undoUI(); strokeEnd(); };
+  const wipe = $('#wipe');
+  wipe.onclick = () => {
+    if (!S.drawn) return;
+    if (wipe.dataset.ask) { snap(); cx.clearRect(0, 0, W, H); delete wipe.dataset.ask; wipe.textContent = '🗑️'; strokeEnd(); return; }
+    wipe.dataset.ask = 1; wipe.textContent = '정말?';
+    setTimeout(() => { delete wipe.dataset.ask; wipe.textContent = '🗑️'; }, 3000);
+  };
+  $('#done').onclick = closeStudio;
+  mark(); undoUI();
+}
+function openStudio(){
+  $('#board').style.background = getComputedStyle(document.documentElement).getPropertyValue(PAPERS[S.paper]);
+  $('#studio').hidden = false; document.body.style.overflow = 'hidden';
+  fitBoard();
+}
+function closeStudio(){
+  $('#studio').hidden = true; $('#stamps').hidden = true; document.body.style.overflow = '';
+  preview();
+}
+function pngOf(){
+  if (!S.drawn) return '';
+  const c = document.createElement('canvas'); c.width = 640; c.height = 400;
+  c.getContext('2d').drawImage(cv, 0, 0, 640, 400);
+  return c.toDataURL('image/png');
+}
+function preview(){
+  const pv = $('#pv'); if (!pv) return;
+  pv.innerHTML = S.drawn ? `<img alt="내 그림" src="${cv.toDataURL('image/png')}"><span class="edit">✏️ 고치기</span>` : `<span class="ph">🎨 눌러서 그림 그리기</span>`;
+}
+
+/* ================= 실시간 저장 (선생님 화면에 '쓰는 중'으로 보임) ================= */
+let syncT = null, sending = false, again = false, onSync = () => {};
+function changed(img){
+  if (img) S.imgDirty = true;
+  const d = { from:$('#from')?.value || '', body:$('#body')?.value || '', paper:S.paper, sticker:S.sticker, sid:S.sid };
+  if (S.imgDirty) { try { d.img = pngOf(); } catch {} } else d.img = draftGet().img || '';
+  draftSet(d);
+  clearTimeout(syncT); syncT = setTimeout(pushDraft, 1200);
+  onSync();
+}
+async function pushDraft(){ return;   // GitHub판: 쓰는 중 미리보기는 없음 (편지만 구글 시트로)
+  if (sending) { again = true; return; }
+  sending = true;
+  const d = draftGet();
+  const body = { from:d.from, body:d.body, paper:d.paper, sticker:d.sticker, sid:S.sid };
+  if ((d.img || '') === S.imgSent) body.keepImg = true; else body.img = d.img || '';
+  try { const r = await fetch('/api/draft', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body) }); if (r.ok) S.imgSent = d.img || ''; } catch {}
+  sending = false;
+  if (again) { again = false; pushDraft(); }
+}
+
+/* ================= 편지 화면 ================= */
+function renderWrite(note){
+  const d = draftGet();
+  if (d.paper != null) S.paper = d.paper;
+  if (d.sticker) S.sticker = d.sticker;
+  if (d.sid) S.sid = d.sid;
+  app.innerHTML = `
+    <header>
+      <h1>💌 ${FRIEND}이에게 마음 전하기</h1>
+      <p class="sub">${FRIEND}이가 금요일까지 우리 반과 함께해요. 고마웠던 일, 응원하는 말을 쓰고 그림으로 꾸며 주세요. 쓴 편지는 선생님만 볼 수 있어요.</p>
+    </header>
+    ${note ? `<div class="msg err">${esc(note)}</div>` : ''}
+    <section class="card">
+      <label class="t" for="from">내 이름</label>
+      <input type="text" id="from" maxlength="20" autocomplete="off" placeholder="예: 김하늘" value="${esc(d.from)}">
+    </section>
+    <section class="card paper" style="--pc:${paperVar(S.paper)}">
+      <div class="row"><label class="t" for="body">편지</label><span class="count" id="cnt"></span></div>
+      <textarea id="body" maxlength="${MAX}" placeholder="${FRIEND}아, ...">${esc(d.body)}</textarea>
+      <div class="row" role="group" aria-label="편지지 색"><span class="hint">편지지</span>${PAPERS.map((p,i)=>`<button type="button" class="sw" data-paper="${i}" aria-label="편지지 ${i+1}" aria-pressed="${i===S.paper}" style="background:var(${p})"></button>`).join('')}</div>
+      <div class="row" role="group" aria-label="모서리 스티커"><span class="hint">모서리 스티커</span>${STICKERS.map(s=>`<button type="button" class="st" data-st="${s}" aria-pressed="${s===S.sticker}">${s}</button>`).join('')}</div>
+    </section>
+    <section class="card paper" style="--pc:${paperVar(S.paper)}">
+      <label class="t">🎨 그림으로 꾸미기</label>
+      <button type="button" class="pv" id="pv"></button>
+    </section>
+    <div class="row"><button class="btn" id="send" disabled>보내기 ✉️</button></div>`;
+  const from = $('#from'), body = $('#body'), send = $('#send');
+  onSync = () => {
+    $('#cnt').textContent = `${body.value.length} / ${MAX}`;
+    send.disabled = !(from.value.trim() && (body.value.trim().length >= 2 || S.drawn));
+  };
+  from.oninput = () => changed(); body.oninput = () => changed();
+  app.querySelectorAll('[data-paper]').forEach(b => b.onclick = () => {
+    S.paper = +b.dataset.paper;
+    app.querySelectorAll('.paper').forEach(x => x.style.setProperty('--pc', paperVar(S.paper)));
+    app.querySelectorAll('[data-paper]').forEach(x => x.setAttribute('aria-pressed', x===b));
+    changed();
+  });
+  app.querySelectorAll('[data-st]').forEach(b => b.onclick = () => {
+    S.sticker = b.dataset.st;
+    app.querySelectorAll('[data-st]').forEach(x => x.setAttribute('aria-pressed', x===b));
+    changed();
+  });
+  $('#pv').onclick = openStudio;
+  preview(); onSync();
+  send.onclick = () => submit(from.value.trim(), body.value.trim(), send);
+}
+
+const GAS = 'https://script.google.com/macros/s/AKfycbxG71_fqxPC5NDoL5vpY0GTaLoJi7z_B3oWHt8xbRTujrDXsYKHNaKFgvrNBseScHK3ig/exec';   // 구글 Apps Script 저장소
+async function submit(from, body, btn){
+  btn.disabled = true; btn.textContent = '보내는 중…';
+  clearTimeout(syncT);
+  try {
+    const r = await fetch(GAS, { method:'POST', body: JSON.stringify({ action:'letter', from, body, img:pngOf(), paper:S.paper, sticker:S.sticker }) });
+    if (!r.ok || !(await r.json()).ok) throw 0;
+    draftSet({}); S.paper = 0; S.sticker = '💌'; S.sid = newSid(); S.imgSent = ''; S.imgDirty = false;
+    resetDrawing();
+    renderDone(from);
+  } catch {
+    renderWrite('보내지 못했어요. 다시 눌러 주세요. 계속 안 되면 선생님께 말해 주세요.'); // 쓴 글과 그림은 그대로 남아 있음
+  }
+}
+
+function renderDone(from){
+  app.innerHTML = `
+    <section class="card done">
+      <div class="big">🎉</div>
+      <h1>${esc(from)}, 고마워요!</h1>
+      <p class="sub">편지가 선생님께 잘 전달됐어요.</p>
+      <button class="btn" id="next">다음 친구 쓰기</button>
+    </section>`;
+  $('#next').onclick = () => renderWrite();
+}
+
+studioUI();
+(() => {  // 새로고침해도 쓰던 그림 이어서
+  const d = draftGet();
+  if (!d.img) return renderWrite();
+  const im = new Image();
+  im.onload = () => { cx.drawImage(im, 0, 0, W, H); checkDrawn(); S.imgDirty = true; renderWrite(); };
+  im.onerror = () => renderWrite();
+  im.src = d.img;
+})();
+</script>
+</body>
+</html>
